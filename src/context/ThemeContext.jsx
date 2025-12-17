@@ -1,21 +1,22 @@
 "use client";
 
-import React, { useContext, createContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import React, {
+  useContext,
+  createContext,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
+import { setUserModeCookie } from "@/app/actions/cookies";
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children, initialTheme = "dark" }) => {
   const [theme, setTheme] = useState(initialTheme);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
-    // Only access cookies on client side
-    if (typeof window !== "undefined") {
-      const cookieUserMode = Cookies.get("userMode");
-      const cookieDefaultMode = Cookies.get("defaultMode");
-      const initialThemeValue = cookieUserMode || cookieDefaultMode || initialTheme;
-      setTheme(initialThemeValue);
-    }
+    setTheme(initialTheme);
   }, [initialTheme]);
 
   useEffect(() => {
@@ -28,8 +29,7 @@ export const ThemeProvider = ({ children, initialTheme = "dark" }) => {
   const toggleTheme = () => {
     setTheme((prev) => {
       const newTheme = prev === "dark" ? "light" : "dark";
-      const expires = new Date(new Date().getTime() + 15 * 60 * 1000);
-      Cookies.set("userMode", newTheme, { expires });
+      startTransition(() => setUserModeCookie(newTheme));
       return newTheme;
     });
   };

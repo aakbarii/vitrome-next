@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectFade } from 'swiper/modules';
 import { useTheme } from "../../../context/ThemeContext";
+import { paletteTwo } from "@/theme/paletteTwo";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -33,14 +34,17 @@ const Projects = () => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   return (
-    <div className={`flex flex-col items-center py-16 ${theme === "light" ? "bg-[#f6f3fc]" : "bg-[#0f0715]"}`}>
-      <h2 className={`text-3xl font-bold mb-12 text-center ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}>پروژه های <span className='text-[#56BC80]'>منتخب</span></h2>
+    <div
+      className={`flex flex-col items-center py-16 ${theme === "light" ? "bg-[#ffff]" : ""}`}
+      style={theme === "light" ? undefined : { backgroundColor: paletteTwo.darkBg, color: paletteTwo.textPrimary }}
+    >
+      <h2 className={`text-3xl font-bold mb-12 text-center ${theme === "light" ? "text-[#2a1454]" : ""}`} style={theme === "light" ? undefined : { color: paletteTwo.textPrimary }}>پروژه های <span className='text-[#56BC80]'>منتخب</span></h2>
       
       <div className="container mx-auto flex flex-row-reverse items-center gap-12 px-4">
         <div className="w-1/2 text-right">
           <div className="mb-8">
-            <h3 className={`text-2xl font-bold mb-4 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}>{projects[activeSlide].title}</h3>
-            <p className={`mb-6 leading-relaxed ${theme === "light" ? "text-[#140c1c]" : "text-gray-400"}`}>{projects[activeSlide].description}</p>
+            <h3 className={`text-2xl font-bold mb-4 ${theme === "light" ? "text-[#2a1454]" : ""}`} style={theme === "light" ? undefined : { color: paletteTwo.textPrimary }}>{projects[activeSlide].title}</h3>
+            <p className={`mb-6 leading-relaxed ${theme === "light" ? "text-[#140c1c]" : ""}`} style={theme === "light" ? undefined : { color: paletteTwo.textSecondary }}>{projects[activeSlide].description}</p>
             
             <a 
               href="#" 
@@ -52,12 +56,22 @@ const Projects = () => {
           
           {/* Navigation Buttons */}
           <div className="flex gap-4 justify-start mt-8">
-            <button className={`swiper-button-prev-custom p-3 rounded-full shadow-md transition-all ${theme === "light" ? "bg-white hover:bg-gray-100" : "bg-[#140c1c] hover:bg-[#2a1454]"}`}>
+            <button
+              className={`swiper-button-prev-custom p-3 rounded-full shadow-md transition-all ${
+                theme === "light" ? "bg-white hover:bg-gray-100" : ""
+              }`}
+              style={theme === "light" ? undefined : { backgroundColor: paletteTwo.surface }}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${theme === "light" ? "text-gray-600" : "text-white"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <button className={`swiper-button-next-custom p-3 rounded-full shadow-md transition-all ${theme === "light" ? "bg-white hover:bg-gray-100" : "bg-[#140c1c] hover:bg-[#2a1454]"}`}>
+            <button
+              className={`swiper-button-next-custom p-3 rounded-full shadow-md transition-all ${
+                theme === "light" ? "bg-white hover:bg-gray-100" : ""
+              }`}
+              style={theme === "light" ? undefined : { backgroundColor: paletteTwo.surface }}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${theme === "light" ? "text-gray-600" : "text-white"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

@@ -1,39 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { logoDark, usaFlag, darkIcon, lightIcon } from "@/constants/images";
 import { useTheme } from "../../../context/ThemeContext";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { setLanguageCookie } from "@/app/actions/cookies";
 
 const Header = ({ email }) => {
   const router = useRouter();
-  const { theme, toggleTheme, setTheme } = useTheme();
-  const [headerClass, setHeaderClass] = useState("sticky-out show");
+  const { theme, toggleTheme } = useTheme();
+  const [headerClass, setHeaderClass] = useState("sticky-out");
   const [menuOpen, setMenuOpen] = useState(false);
-
-
-  useEffect(() => {
-    const userMode = Cookies.get("userMode");
-    const defaultMode = Cookies.get("defaultMode");
-
-    const mode = userMode || defaultMode || "dark"; // پیش‌فرض fallback
-
-    if (mode === "dark") {
-      setTheme("dark");
-    } else if (mode === "light") {
-      setTheme("light");
-    }
-  }, [setTheme]);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 3) {
-        setHeaderClass("sticky");
-      } else {
-        setHeaderClass("sticky-out");
-      }
+      const shouldStick = window.scrollY > 120;
+      setHeaderClass(shouldStick ? "sticky" : "sticky-out");
     };
 
     handleScroll();
@@ -80,15 +63,23 @@ const Header = ({ email }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const scrollToSection = (event, selector) => {
+    event.preventDefault();
+    const target = document.querySelector(selector);
+    if (!target) return;
+    const offset = target.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: offset, behavior: "smooth" });
+    setMenuOpen(false);
+  };
+
   const handleLanguageToggle = () => {
-    const currentLang = Cookies.get("ulang");
-    const newLang = currentLang === "fa" ? "en" : "fa";
+    const newLang = "fa";
 
-    const expires = new Date(new Date().getTime() + 15 * 60 * 1000); // الان + 15 دقیقه
-
-    Cookies.set("ulang", newLang, { expires });
-    router.push("/");
-    router.refresh();
+    startTransition(async () => {
+      await setLanguageCookie(newLang);
+      router.push("/");
+      router.refresh();
+    });
   };
 
   return (
@@ -104,12 +95,19 @@ const Header = ({ email }) => {
           height="100%"
           viewBox="-1 -1 102 102"
         >
-          <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" className="stroke-[#8750f7] stroke-[3px] fill-transparent" style={{ strokeDasharray: '307.867', strokeDashoffset: '307.867' }}></path>
+          <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" className="stroke-[#8750f7] stroke-[3px] fill-transparent"></path>
         </svg>
       </div>
 
-      <div className={`resume-toggle-btn fixed bottom-[30px] left-[30px] w-[50px] h-[50px] ${theme === "light" ? "bg-white border-[#8750f7]" : "bg-[#140c1c] border-[#8750f7]"} border-[2px] rounded-full flex items-center justify-center transition-all duration-300 z-[999] hover:scale-110 shadow-[0_0_20px_rgba(135,80,247,0.3)]`} title="Change Resume">
-        <i className={`flaticon-recommendation text-[#8750f7] text-[24px]`}></i>
+      <div className={`resume-toggle-btn fixed bottom-[30px] left-[30px] w-[50px] h-[50px] ${theme === "light" ? "bg-white border-[#8750f7]" : "bg-[#140c1c] border-[#8750f7]"} border-[2px] rounded-full flex items-center justify-center transition-all duration-300 z-[999] hover:scale-110 shadow-[0_0_20px_rgba(135,80,247,0.3)]`} title="Change Resume" aria-label="Change Resume">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          className="w-6 h-6 text-[#8750f7] fill-none stroke-current stroke-2"
+        >
+          <path d="M6 4h7a2 2 0 0 1 2 2v2h-5a2 2 0 0 0-2 2v5H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+          <path d="M10 10h8a2 2 0 0 1 2 2v6l-3-2-3 2v-4" />
+        </svg>
       </div>
 
       <header className="tj-header-area header-absolute pt-[40px] pb-[20px] absolute left-0 top-0 w-full z-[99] bg-transparent">
@@ -130,58 +128,60 @@ const Header = ({ email }) => {
                 </ul>
               </div>
 
-              <div className="header-menu ml-auto">
+              <div className="header-menu ml-auto hidden lg:block">
                 <nav>
                   <ul className="m-0 p-0 list-none flex flex-wrap items-center gap-[35px]">
                     <li className="relative">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#services-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#services-section")}
+                      href="#services-section"
                         className={`flex text-[15px] font-medium no-underline relative py-[10px] before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded-[4px] before:bg-gradient-to-r before:from-[#2a1454] before:to-[#8750f7] before:bottom-[9px] before:left-0 before:origin-right before:scale-x-0 before:transition-transform before:duration-300 hover:before:origin-left hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Services
                       </a>
                     </li>
                     <li className="relative">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#skills-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#skills-section")}
+                      href="#skills-section"
                         className={`flex text-[15px] font-medium no-underline relative py-[10px] before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded-[4px] before:bg-gradient-to-r before:from-[#2a1454] before:to-[#8750f7] before:bottom-[9px] before:left-0 before:origin-right before:scale-x-0 before:transition-transform before:duration-300 hover:before:origin-left hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Skills
                       </a>
                     </li>
                     <li className="relative">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#resume-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#resume-section")}
+                      href="#resume-section"
                         className={`flex text-[15px] font-medium no-underline relative py-[10px] before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded-[4px] before:bg-gradient-to-r before:from-[#2a1454] before:to-[#8750f7] before:bottom-[9px] before:left-0 before:origin-right before:scale-x-0 before:transition-transform before:duration-300 hover:before:origin-left hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Resume
                       </a>
                     </li>
                     <li className="relative">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#works-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#works-section")}
+                      href="#works-section"
                         className={`flex text-[15px] font-medium no-underline relative py-[10px] before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded-[4px] before:bg-gradient-to-r before:from-[#2a1454] before:to-[#8750f7] before:bottom-[9px] before:left-0 before:origin-right before:scale-x-0 before:transition-transform before:duration-300 hover:before:origin-left hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Works
                       </a>
                     </li>
                     <li className="relative">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#testimonials-section"
+                    <a
+                      onClick={(e) =>
+                        scrollToSection(e, "#testimonials-section")
+                      }
+                      href="#testimonials-section"
                         className={`flex text-[15px] font-medium no-underline relative py-[10px] before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded-[4px] before:bg-gradient-to-r before:from-[#2a1454] before:to-[#8750f7] before:bottom-[9px] before:left-0 before:origin-right before:scale-x-0 before:transition-transform before:duration-300 hover:before:origin-left hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Testimonials
                       </a>
                     </li>
                     <li className="relative">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#contact-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#contact-section")}
+                      href="#contact-section"
                         className={`flex text-[15px] font-medium no-underline relative py-[10px] before:content-[''] before:absolute before:w-full before:h-[2px] before:rounded-[4px] before:bg-gradient-to-r before:from-[#2a1454] before:to-[#8750f7] before:bottom-[9px] before:left-0 before:origin-right before:scale-x-0 before:transition-transform before:duration-300 hover:before:origin-left hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Contact
@@ -191,7 +191,7 @@ const Header = ({ email }) => {
                 </nav>
               </div>
 
-              <div className="header-button mr-[55px] flex gap-[12px] items-center">
+              <div className="header-button mr-[55px] flex gap-[12px] items-center ml-auto lg:ml-0">
                 <div className="button-dark-light">
                   <button onClick={handleLanguageToggle} className="bg-transparent border-0 p-0">
                     <img src={usaFlag} alt="toggle language" className="w-[32px] h-[32px]" />
@@ -249,58 +249,60 @@ const Header = ({ email }) => {
                 </ul>
               </div>
 
-              <div className={`header-menu absolute left-0 top-full w-full min-h-[90vh] overflow-y-auto origin-top transition-all duration-400 scale-y-0 ${theme === "light" ? "bg-[#ffffff]" : "bg-[#2a1454]"} ${menuOpen ? "scale-y-100" : ""} lg:static lg:relative lg:w-auto lg:min-h-auto lg:overflow-visible lg:bg-transparent lg:origin-auto lg:scale-y-100 lg:flex-1 lg:ml-auto`}>
+              <div className={`header-menu absolute left-0 top-full w-full min-h-[90vh] overflow-y-auto origin-top transition-all duration-400 scale-y-0 ${theme === "light" ? "bg-[#ffffff]" : "bg-[#2a1454]"} ${menuOpen ? "scale-y-100" : ""} lg:static lg:relative lg:w-auto lg:min-h-auto lg:overflow-visible lg:bg-transparent lg:origin-auto lg:scale-y-100 lg:flex-1 lg:ml-auto hidden lg:block`}>
                 <nav>
                   <ul className="m-0 p-0 list-none flex flex-col lg:flex-row lg:flex-nowrap lg:items-center lg:gap-[35px] py-[20px] lg:py-0">
                     <li className="w-full lg:w-auto flex lg:block justify-center lg:justify-start">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#services-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#services-section")}
+                      href="#services-section"
                         className={`flex justify-center lg:justify-start w-full lg:w-auto text-[22px] lg:text-[15px] font-medium no-underline py-[10px] uppercase lg:normal-case leading-none lg:leading-normal tracking-[1px] lg:tracking-normal relative lg:before:content-[''] lg:before:absolute lg:before:w-full lg:before:h-[2px] lg:before:rounded-[4px] lg:before:bg-gradient-to-r lg:before:from-[#2a1454] lg:before:to-[#8750f7] lg:before:bottom-[9px] lg:before:left-0 lg:before:origin-right lg:before:scale-x-0 lg:before:transition-transform lg:before:duration-300 lg:hover:before:origin-left lg:hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Services
                       </a>
                     </li>
                     <li className="w-full lg:w-auto flex lg:block justify-center lg:justify-start">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#skills-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#skills-section")}
+                      href="#skills-section"
                         className={`flex justify-center lg:justify-start w-full lg:w-auto text-[22px] lg:text-[15px] font-medium no-underline py-[10px] uppercase lg:normal-case leading-none lg:leading-normal tracking-[1px] lg:tracking-normal relative lg:before:content-[''] lg:before:absolute lg:before:w-full lg:before:h-[2px] lg:before:rounded-[4px] lg:before:bg-gradient-to-r lg:before:from-[#2a1454] lg:before:to-[#8750f7] lg:before:bottom-[9px] lg:before:left-0 lg:before:origin-right lg:before:scale-x-0 lg:before:transition-transform lg:before:duration-300 lg:hover:before:origin-left lg:hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Skills
                       </a>
                     </li>
                     <li className="w-full lg:w-auto flex lg:block justify-center lg:justify-start">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#resume-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#resume-section")}
+                      href="#resume-section"
                         className={`flex justify-center lg:justify-start w-full lg:w-auto text-[22px] lg:text-[15px] font-medium no-underline py-[10px] uppercase lg:normal-case leading-none lg:leading-normal tracking-[1px] lg:tracking-normal relative lg:before:content-[''] lg:before:absolute lg:before:w-full lg:before:h-[2px] lg:before:rounded-[4px] lg:before:bg-gradient-to-r lg:before:from-[#2a1454] lg:before:to-[#8750f7] lg:before:bottom-[9px] lg:before:left-0 lg:before:origin-right lg:before:scale-x-0 lg:before:transition-transform lg:before:duration-300 lg:hover:before:origin-left lg:hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Resume
                       </a>
                     </li>
                     <li className="w-full lg:w-auto flex lg:block justify-center lg:justify-start">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#works-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#works-section")}
+                      href="#works-section"
                         className={`flex justify-center lg:justify-start w-full lg:w-auto text-[22px] lg:text-[15px] font-medium no-underline py-[10px] uppercase lg:normal-case leading-none lg:leading-normal tracking-[1px] lg:tracking-normal relative lg:before:content-[''] lg:before:absolute lg:before:w-full lg:before:h-[2px] lg:before:rounded-[4px] lg:before:bg-gradient-to-r lg:before:from-[#2a1454] lg:before:to-[#8750f7] lg:before:bottom-[9px] lg:before:left-0 lg:before:origin-right lg:before:scale-x-0 lg:before:transition-transform lg:before:duration-300 lg:hover:before:origin-left lg:hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Works
                       </a>
                     </li>
                     <li className="w-full lg:w-auto flex lg:block justify-center lg:justify-start">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#testimonials-section"
+                    <a
+                      onClick={(e) =>
+                        scrollToSection(e, "#testimonials-section")
+                      }
+                      href="#testimonials-section"
                         className={`flex justify-center lg:justify-start w-full lg:w-auto text-[22px] lg:text-[15px] font-medium no-underline py-[10px] uppercase lg:normal-case leading-none lg:leading-normal tracking-[1px] lg:tracking-normal relative lg:before:content-[''] lg:before:absolute lg:before:w-full lg:before:h-[2px] lg:before:rounded-[4px] lg:before:bg-gradient-to-r lg:before:from-[#2a1454] lg:before:to-[#8750f7] lg:before:bottom-[9px] lg:before:left-0 lg:before:origin-right lg:before:scale-x-0 lg:before:transition-transform lg:before:duration-300 lg:hover:before:origin-left lg:hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Testimonials
                       </a>
                     </li>
                     <li className="w-full lg:w-auto flex lg:block justify-center lg:justify-start">
-                      <a
-                        onClick={() => setMenuOpen(false)}
-                        href="#contact-section"
+                    <a
+                      onClick={(e) => scrollToSection(e, "#contact-section")}
+                      href="#contact-section"
                         className={`flex justify-center lg:justify-start w-full lg:w-auto text-[22px] lg:text-[15px] font-medium no-underline py-[10px] uppercase lg:normal-case leading-none lg:leading-normal tracking-[1px] lg:tracking-normal relative lg:before:content-[''] lg:before:absolute lg:before:w-full lg:before:h-[2px] lg:before:rounded-[4px] lg:before:bg-gradient-to-r lg:before:from-[#2a1454] lg:before:to-[#8750f7] lg:before:bottom-[9px] lg:before:left-0 lg:before:origin-right lg:before:scale-x-0 lg:before:transition-transform lg:before:duration-300 lg:hover:before:origin-left lg:hover:before:scale-x-100 ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}
                       >
                         Contact
@@ -310,14 +312,14 @@ const Header = ({ email }) => {
                 </nav>
               </div>
 
-              <div className="header-button flex gap-[12px] items-center">
+              <div className="header-button flex gap-[12px] items-center hidden lg:flex">
                 <a href="#contact-section" className="no-underline inline-flex gap-[10px] items-center justify-center text-[15px] leading-none font-bold text-white capitalize bg-[length:200%] bg-gradient-to-r from-[#8750f7] via-[#2a1454] to-[#8750f7] border-none rounded-[50px] py-[17px] px-[35px] transition-all duration-400 hover:bg-[position:-100%]">
                   Hire me!
                 </a>
               </div>
 
               <div
-                className={`menu-bar lg:hidden cursor-pointer ${menuOpen ? "menu-bar-toggeled" : ""}`}
+                className={`menu-bar lg:hidden ${menuOpen ? "menu-bar-toggeled" : ""}`}
                 onClick={() => setMenuOpen(!menuOpen)}
               >
                 <button className={`border-0 p-0 bg-transparent h-[25px] flex flex-col justify-between relative origin-center cursor-pointer transition-transform duration-300 ${menuOpen ? "rotate-45 delay-400" : "rotate-0"}`}>

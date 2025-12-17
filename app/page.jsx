@@ -1,61 +1,47 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import Home from "@/pages/one/Home";
-import HomeEn from "@/pages/one/HomeEn";
-import HomeTwoFa from "@/pages/two/HomeFa";
+import { cookies } from "next/headers";
+import Home from "@/views/one/Home";
+import HomeEn from "@/views/one/HomeEn";
+import HomeTwoFa from "@/views/two/HomeFa";
 import ResumeToggleButton from "@/components/ResumeToggleButton";
+import fallbackResume from "@/data/resumeFallback.json";
 import "aos/dist/aos.css";
 
-export default function Page() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+let hasLoggedResumeError = false;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("https://api.myresome.ir/api/abol");
-        if (!res.ok) {
-          throw new Error("خطا در دریافت داده‌ها");
-        }
-        const data = await res.json();
-        setData(data);
+async function fetchResumeData() {
+  const endpoint = process.env.NEXT_PUBLIC_RESUME_API || "https://api.myresome.ir/api/abol";
 
-        Cookies.set("defaultLang", data.setting["def-lang"], {
-          expires: 7,
-        });
+  try {
+    const res = await fetch(endpoint, {
+      cache: "no-store",
+    });
 
-        if (!Cookies.get("userMode")) {
-          Cookies.set("defaultMode", data.setting["def-mode"], {
-            expires: 7,
-          });
-        }
-      } catch (error) {
-        console.error("خطا در دریافت داده‌ها:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!res.ok) {
+      throw new Error(`خطا در دریافت داده‌ها (status ${res.status})`);
+    }
 
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8750f7] mx-auto"></div>
-          <p className="mt-4 text-[#8750f7]">در حال بارگذاری...</p>
-        </div>
-      </div>
-    );
+    return res.json();
+  } catch (error) {
+    if (!hasLoggedResumeError) {
+      console.warn("خطا در دریافت داده‌ها، استفاده از داده‌ی پشتیبان.", error);
+      hasLoggedResumeError = true;
+    }
+    return fallbackResume;
   }
+}
 
-  const defaultLang = Cookies.get("defaultLang");
-  const userLang = Cookies.get("ulang");
-  const defaultMode = Cookies.get("defaultMode");
-  const resumeTemplate = Cookies.get("resumeTemplate") || "one";
+export default async function Page() {
+  const cookieStore = await cookies();
+  const userLang = cookieStore.get("ulang")?.value;
+  const userMode = cookieStore.get("userMode")?.value;
+  const resumeTemplate = cookieStore.get("resumeTemplate")?.value || "one";
+  const defaultLangCookie = cookieStore.get("defaultLang")?.value;
+  const defaultModeCookie = cookieStore.get("defaultMode")?.value;
+
+  const data = await fetchResumeData();
+
+  const defaultLang = defaultLangCookie || data?.setting?.["def-lang"];
+  const defaultMode = defaultModeCookie || (!userMode ? data?.setting?.["def-mode"] : undefined);
 
   const getHomeComponent = () => {
     if (resumeTemplate === "two") {
@@ -78,7 +64,7 @@ export default function Page() {
 
   return (
     <>
-      <ResumeToggleButton />
+      <ResumeToggleButton resumeTemplate={resumeTemplate} />
       {getHomeComponent()}
     </>
   );

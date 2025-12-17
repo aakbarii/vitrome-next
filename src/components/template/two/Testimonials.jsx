@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTheme } from "../../../context/ThemeContext";
+import { paletteTwo } from "@/theme/paletteTwo";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import TestimonialCard from './TestimonialCard';
@@ -48,7 +49,10 @@ function Testimonials() {
   ];
 
   return (
-    <div className={`py-16 px-6 ${theme === "light" ? "bg-[#e5e5e5]" : "bg-[#0f0715]"}`}>
+    <div
+      className={`py-16 px-6 ${theme === "light" ? "bg-[#e5e5e5]" : ""}`}
+      style={theme === "light" ? undefined : { backgroundColor: paletteTwo.darkBg, color: paletteTwo.textPrimary }}
+    >
       <div className="max-w-[1320px] mx-auto">
         <div className="flex flex-wrap -mx-4 items-start">
           {/* Right Section - Title and Description */}
@@ -67,15 +71,15 @@ function Testimonials() {
               </div>
               
               <div className="pr-2">
-                <div className={`text-sm font-medium mb-2 ${theme === "light" ? "text-[#56BC80]" : "text-[#56BC80]"}`}>
+                <div className="text-sm font-medium mb-2" style={{ color: paletteTwo.primary }}>
                   نظرات مشتریان
                 </div>
-                <h2 className={`text-3xl lg:text-4xl font-bold mb-4 leading-tight ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}>
+                <h2 className={`text-3xl lg:text-4xl font-bold mb-4 leading-tight ${theme === "light" ? "text-[#2a1454]" : ""}`} style={theme === "light" ? undefined : { color: paletteTwo.textPrimary }}>
                   داستان های
                   <br />
                   مشتریان من
                 </h2>
-                <p className={`text-sm leading-relaxed ${theme === "light" ? "text-gray-600" : "text-gray-400"}`}>
+                <p className={`text-sm leading-relaxed ${theme === "light" ? "text-gray-600" : ""}`} style={theme === "light" ? undefined : { color: paletteTwo.textSecondary }}>
                   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون
                 </p>
               </div>

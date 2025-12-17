@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useTheme } from "../../context/ThemeContext";
 import Navbar from "../../components/layout/two/NavbarFa";
 import HeroSection from "../../components/template/two/HeroSections";
@@ -11,11 +10,11 @@ import Services from "../../components/template/two/Services";
 import Resume from "../../components/template/two/Resume";
 import Testimonials from "../../components/template/two/Testimonials";
 import Contact from "../../components/template/two/Contact";
+import { paletteTwo } from "@/theme/paletteTwo";
 
 function HomeFa() {
   const { theme } = useTheme();
   
-  // Mock services data - you can replace this with actual data from props or API
   const services = [
     { title: "طراحی وبسایت" },
     { title: "توسعه وبسایت" },
@@ -27,11 +26,15 @@ function HomeFa() {
     <>
       <div
         className={`container flex flex-col gap-y-10 min-h-screen ${
-          theme === "light"
-            ? "bg-[#FFFFFF] text-[#37383D]"
-            : "bg-[#24252D] text-[#FFFFFF]"
+          theme === "light" ? "bg-[#FFFFFF] text-[#37383D]" : ""
         }`}
+        style={
+          theme === "light"
+            ? undefined
+            : { backgroundColor: paletteTwo.darkBg, color: paletteTwo.textPrimary }
+        }
       >
+        <div className="max-w-[1320px] w-full mx-auto">
         <Navbar />
         <HeroSection />
         <ExperienceBox />
@@ -41,6 +44,8 @@ function HomeFa() {
         <Resume />
         <Testimonials />
         <Contact services={services} />
+        </div>
+
       </div>
     </>
   );

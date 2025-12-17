@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import { useTheme } from "../../../context/ThemeContext";
 import { Group2017 as ExperienceImg } from "@/constants/images";
 
@@ -8,7 +5,7 @@ const ExperienceBox = () => {
   const { theme } = useTheme();
   
   return (
-    <div className={`h-40 ${theme === "light" ? "bg-[#56BC80]" : "bg-[#56BC80]"} rounded-2xl px-10 flex items-center justify-between shadow-md text-white`}>
+    <div className={`h-40 mt-8 ${theme === "light" ? "bg-[#56BC80]" : "bg-[#56BC80]"} rounded-2xl px-10 flex items-center justify-between shadow-md text-white`}>
       <div className="flex items-center gap-7">
         <img src={ExperienceImg} alt="آیکون" />
         <span className="text-[28px] font-bold">سوابق کاری</span>

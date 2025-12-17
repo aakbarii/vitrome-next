@@ -42,7 +42,7 @@ function Portfolio() {
   ];
 
   return (
-    <div className={`py-10 text-center ${theme === "light" ? "bg-[#f6f3fc]" : "bg-[#0f0715]"}`}>
+    <div className={`py-10 text-center ${theme === "light" ? "bg-[#ffff]" : "bg-[#0f0715]"}`}>
       <h2 className={`mb-10 text-2xl font-bold ${theme === "light" ? "text-[#2a1454]" : "text-white"}`}>سوابق کاری من</h2>
       <div className="w-11/12 mx-auto portfolio-slider-container">
         <Swiper

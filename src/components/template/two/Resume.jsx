@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTheme } from "../../../context/ThemeContext";
+import { paletteTwo } from "@/theme/paletteTwo";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import ResumeCard from './ResumeCard';
@@ -76,11 +77,14 @@ function Resume() {
   ];
 
   return (
-    <div className={`py-16 px-6 ${theme === "light" ? "bg-[#f6f3fc]" : "bg-[#0f0715]"}`}>
+    <div
+      className={`py-16 px-6 ${theme === "light" ? "bg-[#ffff]" : ""}`}
+      style={theme === "light" ? undefined : { backgroundColor: paletteTwo.darkBg, color: paletteTwo.textPrimary }}
+    >
       <div className="max-w-[1320px] mx-auto">
         {/* Work Experience Section */}
         <div className="mb-16">
-          <h2 className={`text-2xl font-bold mb-8 text-right ${theme === "light" ? "text-[#56BC80]" : "text-[#56BC80]"}`}>
+          <h2 className="text-2xl font-bold mb-8 text-right" style={{ color: paletteTwo.primary }}>
             سوابق کاری من
           </h2>
           <div className="relative">
@@ -123,7 +127,7 @@ function Resume() {
 
         {/* Education Section */}
         <div>
-          <h2 className={`text-2xl font-bold mb-8 text-right ${theme === "light" ? "text-[#56BC80]" : "text-[#56BC80]"}`}>
+          <h2 className="text-2xl font-bold mb-8 text-right" style={{ color: paletteTwo.primary }}>
             تحصیلات من
           </h2>
           <div className="relative">

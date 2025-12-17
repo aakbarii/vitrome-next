@@ -1,0 +1,207 @@
+{
+  "setting": {
+    "def-lang": "fa",
+    "def-mode": "dark"
+  },
+  "fa": {
+    "information": {
+      "name": "آبل فلاح",
+      "job1": "برنامه نویس",
+      "job2": "طراح سایت",
+      "aboutmy": "این داده‌ی آزمایشی است تا در حالت آفلاین صفحه بدون خطا بارگذاری شود.",
+      "email": "demo@example.com",
+      "address": "تهران، ایران",
+      "number": "+98 912 000 0000"
+    },
+    "links": {
+      "resome": "#",
+      "telegram": "https://t.me",
+      "instagram": "https://instagram.com",
+      "linkedin": "https://linkedin.com",
+      "github": "https://github.com"
+    },
+    "counters": {
+      "history": 5,
+      "completion": 24,
+      "satisfied": 9,
+      "experience": 4
+    },
+    "services": [
+      {
+        "title": "طراحی و پیاده‌سازی رابط کاربری",
+        "paragraph": "طراحی رابط‌های واکنش‌گرا و دسترس‌پذیر با Tailwind و React."
+      },
+      {
+        "title": "توسعه وب اپلیکیشن",
+        "paragraph": "پیاده‌سازی وب اپ‌های سریع با Next.js و بهینه‌سازی SEO."
+      },
+      {
+        "title": "یکپارچه‌سازی API",
+        "paragraph": "اتصال امن به سرویس‌های REST و GraphQL و مدیریت خطا."
+      }
+    ],
+    "skills": [
+      { "name": "React", "image": "react.svg", "percentage": "90%" },
+      { "name": "Next.js", "image": "js.svg", "percentage": "85%" },
+      { "name": "Tailwind", "image": "tailwind.svg", "percentage": "80%" },
+      { "name": "HTML/CSS", "image": "html.png", "percentage": "95%" },
+      { "name": "Python", "image": "python.svg", "percentage": "70%" },
+      { "name": "Figma", "image": "figma.svg", "percentage": "65%" }
+    ],
+    "education": [
+      {
+        "time": "2014 - 2018",
+        "title": "کارشناسی مهندسی نرم‌افزار",
+        "institute": "دانشگاه نمونه"
+      },
+      {
+        "time": "2018 - 2020",
+        "title": "دوره تخصصی فرانت‌اند",
+        "institute": "آکادمی وب"
+      }
+    ],
+    "resomes": [
+      {
+        "time": "2021 - اکنون",
+        "title": "Front-end Developer",
+        "institute": "شرکت فناوری آدا"
+      },
+      {
+        "time": "2019 - 2021",
+        "title": "React Developer",
+        "institute": "استودیو نرم‌افزار ساعی"
+      }
+    ],
+    "projects": [
+      {
+        "image": "project-1.png",
+        "proname": "داشبورد فروش",
+        "paragraph": "پیاده‌سازی داشبورد زنده با نمودار و احراز هویت."
+      },
+      {
+        "image": "project-2.png",
+        "proname": "وب‌سایت نمونه کار",
+        "paragraph": "طراحی و توسعه وب‌سایت شخصی واکنش‌گرا."
+      },
+      {
+        "image": "project-3.png",
+        "proname": "اپلیکیشن رزرو",
+        "paragraph": "ساخت رابط رزرو با فرم‌های چندمرحله‌ای و پرداخت ساختگی."
+      }
+    ],
+    "comments": [
+      {
+        "paragraph": "همکاری با او باعث شد پروژه‌مان سریع و بدون دردسر پیش برود.",
+        "name": "مشتری نمونه",
+        "position": "مدیر محصول"
+      },
+      {
+        "paragraph": "تحویل به‌موقع، کد تمیز و مستندات کامل داشت.",
+        "name": "کارفرما",
+        "position": "CTO"
+      }
+    ],
+    "user": "offline-demo"
+  },
+  "en": {
+    "information": {
+      "name": "Abol",
+      "job1": "Front-end Developer",
+      "job2": "React / Next.js",
+      "aboutmy": "Sample offline data to keep the page working when the API is unreachable.",
+      "email": "demo@example.com",
+      "address": "Tehran, Iran",
+      "number": "+98 912 000 0000"
+    },
+    "links": {
+      "resome": "#",
+      "telegram": "https://t.me",
+      "instagram": "https://instagram.com",
+      "linkedin": "https://linkedin.com",
+      "github": "https://github.com"
+    },
+    "counters": {
+      "history": 5,
+      "completion": 24,
+      "satisfied": 9,
+      "experience": 4
+    },
+    "services": [
+      {
+        "title": "UI/UX Implementation",
+        "paragraph": "Responsive and accessible interfaces with Tailwind and React."
+      },
+      {
+        "title": "Web App Development",
+        "paragraph": "Fast, SEO-friendly web apps built with Next.js."
+      },
+      {
+        "title": "API Integration",
+        "paragraph": "Secure integration with REST/GraphQL services plus error handling."
+      }
+    ],
+    "skills": [
+      { "name": "React", "image": "react.svg", "percentage": "90%" },
+      { "name": "Next.js", "image": "js.svg", "percentage": "85%" },
+      { "name": "Tailwind", "image": "tailwind.svg", "percentage": "80%" },
+      { "name": "HTML/CSS", "image": "html.png", "percentage": "95%" },
+      { "name": "Python", "image": "python.svg", "percentage": "70%" },
+      { "name": "Figma", "image": "figma.svg", "percentage": "65%" }
+    ],
+    "education": [
+      {
+        "time": "2014 - 2018",
+        "title": "B.Sc. Software Engineering",
+        "institute": "Sample University"
+      },
+      {
+        "time": "2018 - 2020",
+        "title": "Front-end Bootcamp",
+        "institute": "Web Academy"
+      }
+    ],
+    "resomes": [
+      {
+        "time": "2021 - Present",
+        "title": "Front-end Developer",
+        "institute": "Ada Tech"
+      },
+      {
+        "time": "2019 - 2021",
+        "title": "React Developer",
+        "institute": "Saee Studio"
+      }
+    ],
+    "projects": [
+      {
+        "image": "project-1.png",
+        "proname": "Sales Dashboard",
+        "paragraph": "Live charts, auth flow, and reporting widgets."
+      },
+      {
+        "image": "project-2.png",
+        "proname": "Portfolio Website",
+        "paragraph": "Responsive personal site with light/dark support."
+      },
+      {
+        "image": "project-3.png",
+        "proname": "Booking App",
+        "paragraph": "Multi-step booking UI with mock payments."
+      }
+    ],
+    "comments": [
+      {
+        "paragraph": "Delivered fast with clean, maintainable code.",
+        "name": "Sample Client",
+        "position": "Product Manager"
+      },
+      {
+        "paragraph": "Great communication and reliable delivery.",
+        "name": "Employer",
+        "position": "CTO"
+      }
+    ],
+    "user": "offline-demo"
+  }
+}
+

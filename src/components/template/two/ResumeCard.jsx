@@ -14,7 +14,7 @@ function ResumeCard({
   const { theme } = useTheme();
   
   return (
-    <div className={`rounded-lg p-5 text-right shadow-md transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ${isActive ? 'bg-green-500 text-white' : theme === "light" ? 'bg-white' : 'bg-[#140c1c]'}`} style={{ direction: 'rtl' }}>
+    <div className={`rounded-lg p-5 text-right shadow-md transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ${isActive ? 'bg-green-500 text-white' : theme === "light" ? 'bg-white' : 'bg-[#140c1c]'}`}>
       <div className={`text-sm mb-2 ${isActive ? 'text-white' : theme === "light" ? 'text-[#140c1c]' : 'text-gray-400'}`}>{dateRange}</div>
       <h3 className={`text-lg font-bold mb-2 ${isActive ? 'text-white' : theme === "light" ? 'text-[#2a1454]' : 'text-white'}`}>{title}</h3>
       <p className={`text-base mb-1 ${isActive ? 'text-white' : theme === "light" ? 'text-[#140c1c]' : 'text-gray-400'}`}>{instructor}</p>

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useTheme } from "../../../context/ThemeContext";
 import { iranFlag, darkIcon, lightIcon } from "@/constants/images";
 

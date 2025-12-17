@@ -11,9 +11,9 @@ const SmoothScroll = ({ children }) => {
     const lenis = new Lenis({
       el: scrollRef.current,
       smooth: true,
-      duration: 0.8,
+      duration: 0.5,
       easing: (t) => t * (2 - t),
-      wheelMultiplier: 0.5,
+      wheelMultiplier: 1.2,
     });
 
     function raf(time) {

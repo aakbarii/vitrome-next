@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { meImage } from "@/constants/images";
 import Odometer from "react-odometerjs";
-import "odometer/themes/odometer-theme-default.css";
 import { useTheme } from "../../../context/ThemeContext";
 import { TelegramIcon, InstagramIcon, LinkedInIcon, GithubIcon } from "@/components/icons/SocialIcons";
 
@@ -95,25 +94,33 @@ const HeroSection = ({ counters, information, links }) => {
               <p className={`text-[20px] max-w-[550px] w-full mb-0 ${theme === "light" ? "text-[#140c1c]" : ""}`}>{information?.aboutmy}</p>
               <div className="button-box mt-[50px] gap-[25px] flex flex-wrap items-center">
                 <a href={links?.resume} className="no-underline text-[15px] leading-none font-medium text-[#8750f7] rounded-[50px] py-[17px] px-[35px] border border-[#8750f7] transition-all duration-300 tracking-[1px] flex items-center gap-[6px] hover:bg-[#8750f7] hover:text-white">
-                  Download CV <i className="flaticon-download text-[17px]"></i>
+                  Download CV
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-[17px] h-[17px] fill-none stroke-current stroke-2"
+                  >
+                    <path d="M12 4v10m0 0 4-4m-4 4-4-4" />
+                    <path d="M5 18h14" />
+                  </svg>
                 </a>
-                <ul className="m-0 p-0 list-none flex">
-                  <li className="mr-[20px] last:mr-0">
+                <ul className="m-0 p-0 list-none flex gap-3">
+                  <li>
                     <a href={links?.telegram} target="_blank" rel="noopener noreferrer" className="text-[#8750f7] w-[35px] h-[35px] border border-[#8750f7] rounded-full flex items-center justify-center relative z-[1] no-underline before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#8750f7] before:scale-0 before:transition-all before:duration-300 before:rounded-full before:z-[-1] hover:border-[#8750f7] hover:text-white hover:before:scale-110">
                       <TelegramIcon className="w-[18px] h-[18px] transition-all duration-300" />
                     </a>
                   </li>
-                  <li className="mr-[20px] last:mr-0">
+                  <li>
                     <a href={links?.instagram} target="_blank" rel="noopener noreferrer" className="text-[#8750f7] w-[35px] h-[35px] border border-[#8750f7] rounded-full flex items-center justify-center relative z-[1] no-underline before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#8750f7] before:scale-0 before:transition-all before:duration-300 before:rounded-full before:z-[-1] hover:border-[#8750f7] hover:text-white hover:before:scale-110">
                       <InstagramIcon className="w-[18px] h-[18px] transition-all duration-300" />
                     </a>
                   </li>
-                  <li className="mr-[20px] last:mr-0">
+                  <li>
                     <a href={links?.linkedin} target="_blank" rel="noopener noreferrer" className="text-[#8750f7] w-[35px] h-[35px] border border-[#8750f7] rounded-full flex items-center justify-center relative z-[1] no-underline before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#8750f7] before:scale-0 before:transition-all before:duration-300 before:rounded-full before:z-[-1] hover:border-[#8750f7] hover:text-white hover:before:scale-110">
                       <LinkedInIcon className="w-[18px] h-[18px] transition-all duration-300" />
                     </a>
                   </li>
-                  <li className="mr-[20px] last:mr-0">
+                  <li>
                     <a href={links?.github} target="_blank" rel="noopener noreferrer" className="text-[#8750f7] w-[35px] h-[35px] border border-[#8750f7] rounded-full flex items-center justify-center relative z-[1] no-underline before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#8750f7] before:scale-0 before:transition-all before:duration-300 before:rounded-full before:z-[-1] hover:border-[#8750f7] hover:text-white hover:before:scale-110">
                       <GithubIcon className="w-[18px] h-[18px] transition-all duration-300" />
                     </a>
